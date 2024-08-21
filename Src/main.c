@@ -17,7 +17,6 @@
  */
 
 #include <stdint.h>
-//Kowshik
 #include"stm32f401xx.h"
 
 int main(void)
