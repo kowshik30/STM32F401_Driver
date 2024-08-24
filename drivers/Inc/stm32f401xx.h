@@ -49,6 +49,8 @@
 #define ADC1_BASEADDR					(APB2PERIP_BASEADDR + 0x2000)	/* Base address of ADC1 Port */
 #define SPI1_BASEADDR					(APB2PERIP_BASEADDR + 0x3000)	/* Base address of SPI1 Port */
 #define SPI4_BASEADDR					(APB2PERIP_BASEADDR + 0x3400)	/* Base address of SPI2 Port */
+#define EXTI_BASEADDR					(APB2PERIP_BASEADDR + 0x3C00)	/* Base address of EXTI Port */
+#define SYSCFG_BASEADDR					(APB2PERIP_BASEADDR + 0x3800)	/* Base address of SYSCFG Port */
 
 /* Peripheral Structure definition of GPIOo */
 typedef struct
@@ -109,6 +111,29 @@ typedef struct
 
 }RCC_RegDef_t;
 
+typedef struct
+{
+	volatile uint32_t IMR;
+	volatile uint32_t EMR;
+	volatile uint32_t RTSR;
+	volatile uint32_t FTSR;
+	volatile uint32_t SWIER;
+	volatile uint32_t PR;
+
+}EXTI_RegDef_t;
+
+typedef struct
+{
+	volatile uint32_t MEMRMP;
+	volatile uint32_t PMC;
+	volatile uint32_t EXTICR1;
+	volatile uint32_t EXTICR2;
+	volatile uint32_t EXTICR3;
+	volatile uint32_t EXTICR4;
+	volatile uint32_t CMPCR;
+
+}SYSCFG_RegDef_t;
+
 /* Peripheral definition peripheral base address typecasted to xxx_RegDef_t */
 #define GPIOA	((GPIO_RegDef_t*)GPIOA_BASEADDR)
 #define GPIOB	((GPIO_RegDef_t*)GPIOB_BASEADDR)
@@ -118,6 +143,8 @@ typedef struct
 #define GPIOH	((GPIO_RegDef_t*)GPIOH_BASEADDR)
 
 #define RCC		((RCC_RegDef_t*)RCC_BASEADDR)
+#define EXTI	((EXTI_RegDef_t*)EXTI_BASEADDR)
+#define SYSCFG	((SYSCFG_RegDef_t*)SYSCFG_BASEADDR)
 
 /* GPIO Clock enable Macro's */
 #define GPIOA_CLK_EN()   (RCC->AHB1ENR |= (1 << 0))
@@ -173,6 +200,10 @@ typedef struct
 /* ADC Clock disable Macro's */
 #define ADC1_CLK_DI()    ((RCC->APB2ENR &= ~(1 << 8))
 
+/* SYSCFG Clock enable Macro's */
+#define SYSCFG_CLK_EN()    ((RCC->APB2ENR |= (1 << 14))
+/* SYSCFG Clock disable Macro's */
+#define SYSCFG_CLK_DI()    ((RCC->APB2ENR &= ~(1 << 14))
 
 /* Macros to reset GPIOx peripherals */
 #define GPIOA_REG_RESET()  do{(RCC->AHB1RSTR |= (1<<0)); (RCC->AHB1RSTR &= ~(1<<0));}while(0)

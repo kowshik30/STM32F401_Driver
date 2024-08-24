@@ -26,6 +26,7 @@ int main()
 
 	for(;;)
 	{
+		if(GPIO_ReadFromInputPin(GPIOC,))
 		GPIO_ToggleOutpuPin(GPIOC,GPIO_PIN_NUM_13);
 		delay();
 	}
