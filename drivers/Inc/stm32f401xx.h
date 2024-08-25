@@ -126,10 +126,7 @@ typedef struct
 {
 	volatile uint32_t MEMRMP;
 	volatile uint32_t PMC;
-	volatile uint32_t EXTICR1;
-	volatile uint32_t EXTICR2;
-	volatile uint32_t EXTICR3;
-	volatile uint32_t EXTICR4;
+	volatile uint32_t EXTICR[4];
 	volatile uint32_t CMPCR;
 
 }SYSCFG_RegDef_t;
@@ -201,7 +198,7 @@ typedef struct
 #define ADC1_CLK_DI()    ((RCC->APB2ENR &= ~(1 << 8))
 
 /* SYSCFG Clock enable Macro's */
-#define SYSCFG_CLK_EN()    ((RCC->APB2ENR |= (1 << 14))
+#define SYSCFG_CLK_EN()    ((RCC->APB2ENR |= (1 << 14)));
 /* SYSCFG Clock disable Macro's */
 #define SYSCFG_CLK_DI()    ((RCC->APB2ENR &= ~(1 << 14))
 
@@ -213,6 +210,13 @@ typedef struct
 #define GPIOE_REG_RESET()  do{(RCC->AHB1RSTR |= (1<<4)); (RCC->AHB1RSTR &= ~(1<<4));}while(0)
 #define GPIOH_REG_RESET()  do{(RCC->AHB1RSTR |= (1<<7)); (RCC->AHB1RSTR &= ~(1<<7));}while(0)
 
+#define GPIO_BASEADDRESS_TO_CODE(x)   ( (x == GPIOA) ? 0:\
+										(x == GPIOB) ? 1:\
+										(x == GPIOC) ? 2:\
+										(x == GPIOD) ? 3:\
+										(x == GPIOE) ? 4:\
+										(x == GPIOH) ? 5:0 )
+
 /* Common Macros */
 #define ENABLE			1
 #define DISABLE			0
@@ -222,3 +226,13 @@ typedef struct
 #define GPIO_PIN_RESET	DISABLE
 #define HIGH			1
 #define LOW				0
+
+/*IRQ Vector Table Macros */
+#define IRQ_NUM_EXTI0		6
+#define IRQ_NUM_EXTI1		7
+#define IRQ_NUM_EXTI2		8
+#define IRQ_NUM_EXTI3		9
+#define IRQ_NUM_EXTI4		10
+#define IRQ_NUM_EXTI9_5		23
+#define IRQ_NUM_EXTI15_10	40
+

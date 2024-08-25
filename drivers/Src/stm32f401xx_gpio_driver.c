@@ -112,6 +112,15 @@ void GPIO_Init(GPIO_Handle_t* pGPIOHandle)
 			EXTI->FTSR |= (1 << pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
 		}
 
+		//Configure port selection in SYSCFG EXTICR
+
+		uint8_t temp1 = pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber / 4;
+		uint8_t temp2 = pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber % 4;
+		uint32_t portcode = GPIO_BASEADDRESS_TO_CODE(pGPIOHandle->pGPIOx);
+		SYSCFG_CLK_EN();
+		SYSCFG->EXTICR[temp1] = portcode << ( temp2 * 4);
+
+
 		//Enable the EXTI delivery using IMR
 		EXTI->IMR |= (1 << pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
 
